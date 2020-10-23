@@ -1,10 +1,12 @@
+import { fetchCardData, fetchSpreads } from "../services/firebase";
+
 import Tarot from "./Tarot";
 import factory from "../util/test/fixtures/factory";
-import { fetchSpreads } from "../services/firebase";
 
 jest.mock("../services/firebase");
 
-fetchSpreads.mockReturnValue(factory.generate("spread", 2));
+fetchSpreads.mockReturnValue(factory.generate("spread", 1));
+fetchCardData.mockReturnValue(factory.generate("card", 10));
 
 const spreads = describe("Tarot", () => {
   describe("constructor", () => {
@@ -47,7 +49,7 @@ const spreads = describe("Tarot", () => {
     it("adds a spread object to the spreads member array", async () => {
       const tarot = new Tarot();
       await tarot.getSpreads();
-      expect(tarot.spreads).toHaveLength(2);
+      expect(tarot.spreads).toHaveLength(1);
     });
   });
   describe("shuffle", () => {
@@ -74,34 +76,76 @@ const spreads = describe("Tarot", () => {
     });
   });
   describe("deal", () => {
-    it("returns an array of the first 10 indexes from the deck", () => {
+    it("returns an array of cards from api matching the index of the spread", async () => {
       const tarot = new Tarot();
-      const spread = tarot.deal();
-      const randomIndex = Math.floor(Math.random() * Math.floor(9));
-      expect(spread).toHaveLength(10);
-      expect(spread[randomIndex]).toEqual(tarot.deck[randomIndex]);
-    });
-    it("does not change the deck array", () => {
-      const tarot = new Tarot();
-      const deckDeepCopy = [...tarot.deck];
-      const randomIndex = Math.floor(Math.random() * Math.floor(9));
-      const spread = tarot.deal();
-      expect(tarot.deck).toHaveLength(78);
-      expect(deckDeepCopy[randomIndex]).toEqual(tarot.deck[randomIndex]);
+      await tarot.getSpreads();
+      const cards = await tarot.deal(tarot.spreads[0].positions.length);
+      expect(cards).toHaveLength(10);
     });
   });
   describe("read", () => {
-    it("adds a reading to the readings array", () => {});
-    it("creates a reading object for each position in the array", () => {});
-    describe("reading object", () => {
-      it("has a name", () => {});
-      it("has a displayName ", () => {});
-      it("has a description", () => {});
-      it("has a cardName", () => {});
-      it("has a number", () => {});
-      it("has a hex color", () => {});
-      it("has an image", () => {});
-      it("has a meaning", () => {});
+    const doBefore = async () => {
+      const tarot = new Tarot();
+      await tarot.getSpreads();
+      const cards = await tarot.deal(tarot.spreads[0].positions.length);
+      tarot.read(tarot.spreads[0], cards);
+      return tarot;
+    };
+
+    it("adds a reading to the readings array", async () => {
+      const tarot = await doBefore();
+      expect(tarot.readings).toHaveLength(1);
+      const beforeReadLength = tarot.readings.length;
+      tarot.read(tarot.spreads[0], factory.generate("card", 10));
+      expect(tarot.readings).toHaveLength(beforeReadLength + 1);
     });
+    it("creates a reading object for each index in the spread array", async () => {
+      const tarot = await doBefore();
+      const reading = tarot.readings[0];
+      expect(reading).toHaveLength(tarot.spreads[0].positions.length);
+    });
+    describe("reading object", () => {
+      it("has a positionName", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("positionName");
+      });
+      it("has a displayName ", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("displayName");
+      });
+      it("has a positionDescription", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("positionDescription");
+      });
+      it("has a cardName", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("cardName");
+      });
+      it("has a cardNumber", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("cardNumber");
+      });
+      it("has a hex color", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("hex");
+      });
+      it("has an image", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("image");
+      });
+      it("has a positionReading", async () => {
+        const tarot = await doBefore();
+        const reading = tarot.readings[0];
+        expect(reading[0]).toHaveProperty("positionReading");
+      });
+    });
+    /* future iterations to include relationships to other cards in the spread, different decks/card meanings & images */
   });
 });

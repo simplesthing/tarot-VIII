@@ -1,8 +1,19 @@
 import React, { useContext } from "react";
 
-import Reading from "./Tarot/Reading";
 import { UserContext } from "../contexts/UserProvider";
 import { auth } from "../services/firebase";
+import styled from "styled-components";
+
+const Article = styled.article`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const Section = styled.section`
+  margin-bottom: 2em;
+`;
 
 const ProfilePage = () => {
   const user = useContext(UserContext);
@@ -10,8 +21,8 @@ const ProfilePage = () => {
   const { photoURL, displayName, email } = user;
 
   return (
-    <div>
-      <div>
+    <Article role="contentinfo" aria-label="Session info and logout">
+      <figure>
         <div
           style={{
             background: `url(${
@@ -23,14 +34,20 @@ const ProfilePage = () => {
             borderRadius: "100px",
           }}
         ></div>
-        <div>
-          <h2>{displayName}</h2>
-          <h3>{email}</h3>
-        </div>
-      </div>
-      <button onClick={() => auth.signOut()}>Sign out</button>
-      <Reading />
-    </div>
+        <figcaption className="visually-hidden">
+          Random image with a depiction of, or reference to, the Tarot.
+        </figcaption>
+      </figure>
+      <Section role="contentinfo" aria-label="Profile information">
+        <h2>{displayName}</h2>
+        <address>{email}</address>
+      </Section>
+      <Section>
+        <button name="sign out" type="button" onClick={() => auth.signOut()}>
+          Sign out
+        </button>
+      </Section>
+    </Article>
   );
 };
 export default ProfilePage;

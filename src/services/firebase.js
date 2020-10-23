@@ -72,15 +72,16 @@ export const fetchSpreads = async () => {
   }
 };
 
-export const fetchReadingData = async (spread) => {
+export const fetchCardData = async (spread) => {
   if (spread.length !== 10) return null;
-  var cards = [];
   try {
     const cardsRef = await db.collection("cards").where("index", "in", spread);
-    cardsRef.get().then((querySnapshot) => {
+    return cardsRef.get().then((querySnapshot) => {
+      var cards = [];
       querySnapshot.forEach((doc) => {
         cards.push(doc.data());
       });
+      return cards;
     });
   } catch (e) {
     console.log("error getting card data for spread", e);

@@ -1,10 +1,13 @@
-import { fetchSpreads, getCardData } from "../services/firebase";
+import { fetchCardData, fetchSpreads } from "../services/firebase";
 
 class Tarot {
   constructor() {
     this.deck = Array.from(Array(78).keys());
     this.spreads = [];
     this.readings = [];
+  }
+  getDeck() {
+    this.deck = Array.from(Array(78).keys());
   }
   async getSpreads() {
     try {
@@ -34,13 +37,27 @@ class Tarot {
     this.deck = move.concat(deck);
     return;
   }
-  deal(spreadType) {
-    const spreadCount = 10;
-    let spread = [...this.deck];
-    spread.splice(spreadCount);
-    return spread;
+  async deal(numberOfCards) {
+    let _deck = [...this.deck];
+    _deck.splice(numberOfCards);
+    const cards = await fetchCardData(_deck);
+    return cards;
   }
-  read(spread, cards) {}
+  read(spread, cards) {
+    let reading = spread.positions.map((pos, index) => {
+      return {
+        positionName: pos.name,
+        displayName: pos.displayName,
+        positionDescription: pos.description,
+        cardName: cards[index].name,
+        cardNumber: cards[index].number,
+        hex: cards[index].hex,
+        image: cards[index].image,
+        positionReading: cards[index][pos.name],
+      };
+    });
+    this.readings.push(reading);
+  }
 }
 
 export default Tarot;
