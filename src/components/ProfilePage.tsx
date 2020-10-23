@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 
+import Reading from "./Tarot/Reading";
 import { UserContext } from "../contexts/UserProvider";
 import { auth } from "../services/firebase";
 
@@ -28,6 +29,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <button onClick={() => auth.signOut()}>Sign out</button>
+      <Reading />
     </div>
   );
 };

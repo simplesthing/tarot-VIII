@@ -45,6 +45,8 @@
     ]
   },
   "devDependencies": {
-    "firestore-export-import": "^0.8.0"
+    "faker": "^5.1.0",
+    "firestore-export-import": "^0.8.0",
+    "fixture-factory": "^1.5.1"
   }
 }

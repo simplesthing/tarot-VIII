@@ -51,3 +51,38 @@ const getUserDocument = async (uid) => {
     console.error("Error fetching user", error);
   }
 };
+
+export const fetchSpreads = async () => {
+  var spreads = [];
+  try {
+    const spreadsRef = await db.collection("spreads");
+    return spreadsRef
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          spreads.push(doc.data());
+        });
+        return spreads;
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
+  } catch (e) {
+    console.log("error getting card data for spread", e);
+  }
+};
+
+export const fetchReadingData = async (spread) => {
+  if (spread.length !== 10) return null;
+  var cards = [];
+  try {
+    const cardsRef = await db.collection("cards").where("index", "in", spread);
+    cardsRef.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        cards.push(doc.data());
+      });
+    });
+  } catch (e) {
+    console.log("error getting card data for spread", e);
+  }
+};

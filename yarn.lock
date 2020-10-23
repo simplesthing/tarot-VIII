@@ -4992,6 +4992,16 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
+faker@^3.0.1:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-3.1.0.tgz#0f908faf4e6ec02524e54a57e432c5c013e08c9f"
+  integrity sha1-D5CPr05uwCUk5UpX5DLFwBPgjJ8=
+
+faker@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-5.1.0.tgz#e10fa1dec4502551aee0eb771617a7e7b94692e8"
+  integrity sha512-RrWKFSSA/aNLP0g3o2WW1Zez7/MnMr7xkiZmoCfAGZmdkDQZ6l2KtuXHN5XjdvpRjDl8+3vf+Rrtl06Z352+Mw==
+
 fast-deep-equal@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.1.tgz#545145077c501491e33b15ec408c294376e94ae4"
@@ -5218,6 +5228,14 @@ firestore-export-import@^0.8.0:
   integrity sha512-pYIouhcOWbQv5MEZ4EOrUizC2ZZ8Idqeh3eGuPnnBam9NCqJ+7WcPU4WkeFv51gznCaNx8TRFftEabOD2WDA4Q==
   dependencies:
     firebase-admin "^9.2.0"
+
+fixture-factory@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/fixture-factory/-/fixture-factory-1.5.1.tgz#80da092a5bc028eafe6c1c30b57358e75fd97b6a"
+  integrity sha1-gNoJKlvAKOr+bBwwtXNY51/Ze2o=
+  dependencies:
+    faker "^3.0.1"
+    lodash "^2.4.1"
 
 flat-cache@^2.0.1:
   version "2.0.1"
@@ -7374,6 +7392,11 @@ lodash.uniq@^4.5.0:
   version "4.17.15"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
+lodash@^2.4.1:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
+  integrity sha1-+t2DS5aDBz2hebPq5tnA0VBT9z4=
 
 lodash@^4.17.19:
   version "4.17.20"

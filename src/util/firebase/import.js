@@ -1,5 +1,6 @@
+//https://levelup.gitconnected.com/firebase-import-json-to-firestore-ed6a4adc2b57
 // Imports
-const firebaseConfig = require("../../config");
+const { firebaseConfig } = require("../../config");
 const firestoreService = require("firestore-export-import");
 const serviceAccount = require("./serviceAccount.json");
 const tarot = require("./.data/tarot8.json");
