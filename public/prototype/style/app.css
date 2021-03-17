@@ -1,0 +1,735 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Smallest viewport ----------- */
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-size: 4.5vw;
+  background: linear-gradient(180deg, #c3c4c7 70%, #929396);
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.none {
+  display: none;
+}
+
+.opacity--zero {
+  opacity: 0;
+}
+
+.opacity--hundred {
+  opacity: 1;
+}
+
+/* Small viewport ----------- */
+@media only screen and (min-width: 420px) {
+  body,
+  html {
+    font-size: 3.5vw;
+  }
+}
+/* Medium viewport ----------- */
+@media only screen and (min-width: 768px) {
+  body,
+  html {
+    font-size: 2vw;
+  }
+}
+/* Average viewport ----------- */
+@media only screen and (min-width: 1224px) {
+  body,
+  html {
+    font-size: 1.25vw;
+  }
+}
+/* Large viewport ----------- */
+@media only screen and (min-width: 1824px) {
+  body,
+  html {
+    font-size: 1vw;
+  }
+}
+.home main {
+  text-align: center;
+  position: relative;
+}
+.home main .instructions {
+  position: relative;
+  height: 60px;
+  z-index: 10;
+  line-height: 4em;
+  font-size: 1em;
+  font-family: Verdana, Geneva, sans-serif;
+}
+.home main .instructions span {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: url(../images/arrows/1.png) calc(57% + 41px) center no-repeat;
+  float: right;
+  margin-right: -55px;
+  margin-top: -60px;
+}
+.home main .deck {
+  position: relative;
+  z-index: 1;
+}
+.home main img {
+  width: 40vw;
+  margin-top: 1.25vmin;
+  box-shadow: 0px 0px 100px 25px #fff;
+}
+.home main img.arrow {
+  width: 7vw;
+  position: relative;
+  top: 1vh;
+}
+.home footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.home footer .tag {
+  width: 50vw;
+  margin: 0 auto;
+  background: #ffffff;
+  text-align: center;
+  position: relative;
+}
+.home footer .tag .icon {
+  width: 8vmin;
+  height: 6vmin;
+  position: absolute;
+}
+.home footer .tag .icon.tetractys {
+  background: url(../images/tetractys.svg) no-repeat;
+  background-size: 7vmin 6vmin;
+  top: 12%;
+  left: 7%;
+}
+.home footer .tag .icon.tree-of-life {
+  background: url(../images/tree_of_life_hebrew.svg) no-repeat;
+  background-size: 7vmin 6vmin;
+  top: 12%;
+  left: 84%;
+}
+.home footer .tag h1 {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 4vw;
+  font-weight: 100;
+  margin: 1.25vmin;
+}
+.home footer .tag p {
+  font-size: 3vw;
+}
+
+@media only screen and (max-height: 360px) {
+  footer {
+    display: none;
+  }
+}
+/* Small viewport ----------- */
+@media only screen and (min-width: 420px) {
+  .home main img {
+    width: 33vw;
+  }
+  .home main img.arrow {
+    width: 6vw;
+  }
+  .home footer .tag h1 {
+    font-size: 3.5vw;
+  }
+  .home footer .tag p {
+    font-size: 3vw;
+  }
+}
+@media only screen and (min-width: 420px) and (max-height: 560px) {
+  footer {
+    display: none;
+  }
+}
+/* Medium viewport ----------- */
+@media only screen and (min-width: 768px) {
+  .home main img {
+    width: 30vw;
+  }
+  .home main img.arrow {
+    width: 5vw;
+  }
+  .home footer .tag {
+    width: 45vw;
+  }
+  .home footer .tag h1 {
+    font-size: 3vw;
+  }
+  .home footer .tag p {
+    font-size: 2.5vw;
+  }
+}
+@media only screen and (min-width: 768px) and (max-height: 795px) {
+  footer {
+    display: none;
+  }
+}
+/* Average viewport ----------- */
+@media only screen and (min-width: 1224px) {
+  .home main img {
+    width: 20vw;
+  }
+  .home main img.arrow {
+    width: 3.5vw;
+  }
+  .home footer .tag {
+    width: 35vw;
+  }
+  .home footer .tag h1 {
+    font-size: 2.5vw;
+  }
+  .home footer .tag p {
+    font-size: 2vw;
+  }
+}
+@media only screen and (min-width: 1224px) and (max-height: 825px) {
+  footer {
+    display: none;
+  }
+}
+/* Large viewport ----------- */
+@media only screen and (min-width: 1824px) {
+  .home main img {
+    width: 17vw;
+  }
+  .home main img.arrow {
+    width: 2.5vw;
+  }
+  .home footer .tag h1 {
+    font-size: 2vw;
+  }
+  .home footer .tag p {
+    font-size: 1.5vw;
+  }
+}
+@media only screen and (min-width: 1824px) and (max-height: 980px) {
+  footer {
+    display: none;
+  }
+}
+.card {
+  width: 9vmin;
+  height: 18vmin;
+  position: absolute;
+  border: solid 1px #000;
+  border-radius: 7px;
+}
+.card.card--back {
+  background: url(../images/tarot/smith-waite-tarot.webp) 0 0 no-repeat;
+  background-size: 9vmin 18vmin;
+}
+.card.card--placeholder {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: transparent;
+}
+.card.card--face {
+  box-shadow: 0px 0px 100px 15px #fff;
+}
+.card.card--face.obstacle {
+  border: none;
+}
+
+.reversed {
+  transform: rotate(180deg);
+}
+
+.popup {
+  position: absolute;
+}
+.popup .popup__content {
+  position: relative;
+  min-height: 100px;
+  background: #ffffff;
+  border: solid #0a0a0a 1px;
+}
+.popup .popup__pointer {
+  display: inline-block;
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #000;
+}
+.popup .popup__pointer:after,
+.popup .popup__pointer:before {
+  top: -70px;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.popup .popup__close {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  float: right;
+  margin: 5px 0;
+  color: #0a0a0a;
+  font-size: 20px;
+}
+.popup .popup__close:hover {
+  color: #ff3305;
+}
+.popup.popup--left .popup__content {
+  left: 15px;
+}
+.popup.popup--left .popup__pointer {
+  right: -2px;
+}
+.popup.popup--left .popup__pointer:after {
+  left: 100%;
+  border-color: rgba(255, 255, 255, 0);
+  border-left-color: #ffffff;
+  border-width: 15px;
+  margin-top: -15px;
+}
+.popup.popup--left .popup__pointer:before {
+  left: 100%;
+  border-color: rgba(0, 0, 0, 0);
+  border-left-color: #000;
+  border-width: 16px;
+  margin-top: -16px;
+}
+.popup.popup--right .popup__content {
+  margin-right: 15px;
+}
+.popup.popup--right .popup__pointer:after {
+  right: 100%;
+  border-color: rgba(255, 255, 255, 0);
+  border-right-color: #ffffff;
+  border-width: 15px;
+  margin-top: -15px;
+}
+.popup.popup--right .popup__pointer:before {
+  right: 100%;
+  border-color: rgba(0, 0, 0, 0);
+  border-right-color: #000;
+  border-width: 16px;
+  margin-top: -16px;
+}
+
+.shuffle {
+  text-align: center;
+  margin-top: 2vmin;
+}
+.shuffle .instructions {
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: 100;
+}
+
+.deal .instructions {
+  margin: 5vmin;
+  float: left;
+  font-family: Verdana, Geneva, sans-serif;
+  font-weight: 100;
+}
+
+.spread .title {
+  width: 9vmin;
+  height: 22vmin;
+  position: absolute;
+  font-size: 0.75em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-transform: capitalize;
+}
+.spread .situation {
+  top: 45%;
+  left: 21%;
+  z-index: 2;
+}
+.spread .situation.title {
+  top: 45%;
+  left: 21%;
+}
+.spread .challenge {
+  top: 45%;
+  left: 21%;
+  transform: rotate(90deg);
+}
+.spread .challenge.title {
+  top: 43.5%;
+  left: 21.5%;
+}
+.spread .challenge .mask {
+  width: 100%;
+  height: 50%;
+  transform: rotate(-90deg);
+  position: absolute;
+  left: -45%;
+  top: 21%;
+}
+.spread .challenge .mask div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 100%;
+}
+.spread .challenge .face {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.spread .root {
+  top: 70%;
+  left: 21%;
+}
+.spread .root.title {
+  top: 70%;
+  left: 21%;
+}
+.spread .crown {
+  top: 20%;
+  left: 21%;
+}
+.spread .crown.title {
+  top: 20%;
+  left: 21%;
+}
+.spread .past {
+  top: 45%;
+  left: 5%;
+}
+.spread .past.title {
+  top: 45%;
+  left: 5%;
+}
+.spread .future {
+  top: 45%;
+  left: 37%;
+}
+.spread .future.title {
+  top: 45%;
+  left: 37%;
+}
+.spread .self {
+  top: 72.5%;
+  left: 50%;
+}
+.spread .self.title {
+  top: 72.5%;
+  left: 50%;
+}
+.spread .influences {
+  top: 50%;
+  left: 50%;
+}
+.spread .influences.title {
+  top: 50%;
+  left: 50%;
+}
+.spread .hope {
+  top: 27.5%;
+  left: 50%;
+}
+.spread .hope.title {
+  top: 27.5%;
+  left: 50%;
+}
+.spread .outcome {
+  top: 5%;
+  left: 50%;
+}
+.spread .outcome.title {
+  top: 5%;
+  left: 50%;
+}
+
+.close-modal {
+  display: block;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: calc(64% - 25px);
+  width: 50px;
+  height: 50px;
+  background: url(../images/close-modal.png) center center no-repeat;
+  cursor: pointer;
+}
+.close-modal:hover {
+  background: url(../images/close-modal.png) center center no-repeat;
+  background-size: 110%;
+}
+.close-modal section {
+  clear: both;
+  overflow: auto;
+  zoom: 1;
+}
+
+.modal {
+  width: 62%;
+  height: 100vh;
+  overflow-y: scroll;
+  position: fixed;
+  background: linear-gradient(180deg, #c3c4c7 70%, #929396);
+  border-right: solid 3px #0a0a0a;
+  z-index: 3;
+  padding-left: 2%;
+}
+.modal h1 {
+  position: relative;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 1.75em;
+  font-weight: 500;
+  text-transform: uppercase;
+  top: 1.25em;
+  margin-bottom: 1em;
+}
+.modal h1 .subhead {
+  font-family: Verdana, Geneva, sans-serif;
+  text-transform: none;
+  font-size: 0.65em;
+}
+.modal p {
+  position: relative;
+  top: 1.25em;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 1em;
+  margin: 1em 0.25em;
+  line-height: 1.45em;
+}
+.modal .modal__card div {
+  width: 30vw;
+  height: calc(28vw * 1.75);
+  position: relative;
+  float: left;
+  display: inline-block;
+}
+.modal .modal__card div span {
+  width: 28vw;
+  height: calc(28vw * 1.75);
+  display: block;
+  border: solid 1px #000;
+  border-radius: 7px;
+  box-shadow: 0px 0px 100px 15px #fff;
+  margin-top: 1em;
+}
+.modal .modal__card-has {
+  width: 100%;
+  padding-top: 1vh;
+  position: relative;
+  clear: both;
+}
+.modal .modal__card-has div {
+  width: 30vw;
+  height: calc(15vw / 1.94);
+  float: right;
+}
+.modal .modal__card-has div .modal__card-has__astro {
+  width: 15vw;
+  height: calc(15vw / 1.94);
+  display: block;
+  float: left;
+}
+.modal .modal__card-has div .modal__card-has__element {
+  width: 28vw;
+  height: calc(15vw / 1.94);
+  display: block;
+}
+.modal .modal__card-has div.modal__card-has__number {
+  width: 28vw;
+  height: calc(28vw * 1.25);
+  float: right;
+  padding-bottom: 3vh;
+}
+.modal .modal__card-has div.modal__card-has__number span {
+  width: 28vw;
+  height: calc(28vw * 1.25);
+  display: block;
+}
+
+.reading {
+  height: 100%;
+  width: 38%;
+  position: fixed;
+  overflow-y: scroll;
+  z-index: 2;
+  right: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: solid 3px #0a0a0a;
+}
+.reading ul {
+  list-style: none;
+  margin: 0 2vw 0 3.5vw;
+}
+.reading ul li {
+  margin: 1.5em 0;
+}
+.reading h1 {
+  font-size: 1.25em;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.reading .position-text {
+  font-size: 0.75em;
+  font-weight: 100;
+  line-height: 1.2em;
+}
+.reading h2 {
+  font-size: 1.25em;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.5em;
+}
+.reading .position-meaning {
+  font-size: 1em;
+  margin-bottom: 1em;
+  line-height: 1.2em;
+}
+
+/*# sourceMappingURL=app.css.map */

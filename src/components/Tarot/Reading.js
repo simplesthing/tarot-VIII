@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
+  background: red;
 `;
 
 const ReadingInfo = styled.section`
@@ -55,6 +56,7 @@ const Reading = () => {
 
   const deal = async () => {
     const cards = await tarot.deal(thisSpread.positions.length);
+    console.log("cards " + JSON.stringify(cards));
     setCards(cards);
   };
 
@@ -82,7 +84,7 @@ const Reading = () => {
           <button onClick={cut}>Cut</button>
         )}
         {cutCount === 3 && <button onClick={deal}>DEAL</button>}
-        {cards.map((spread) => {
+        {/* {cards.map((spread) => {
           return <span key={spread.name}>{spread.name}</span>;
         })}
         {cards.length > 0 && <button onClick={read}>READ</button>}
@@ -97,7 +99,7 @@ const Reading = () => {
               <Property>{pos.positionReading}</Property>
             </Container>
           );
-        })}
+        })} */}
       </Spread>
     </Container>
   );

@@ -9,10 +9,11 @@ const Article = styled.article`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  background: yellow;
 `;
 
 const Section = styled.section`
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 `;
 
 const ProfilePage = () => {

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="JavaScript Tarot game">
+  <meta name="author" content="Ava Collins">
+  <title>Tarot VII</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="style/app.css">
+  <!-- <script src="../node_modules/requirejs/require.js" data-main="app"></script> -->
+</head>
+<body>
+<div class="page home">
+
+  <main class="start">
+    <h1 class="instructions">Click tarot card to start <span></span></h1>
+
+    <picture class="deck">
+      <source type="image/webp" srcset="images/tarot/smith-waite-tarot.webp"/>
+      <img src="images/tarot/smith-waite-tarot.jpg" alt="Card, click to start">
+    </picture>
+  </main>
+
+  <footer>
+    <div class="tag">
+      <i class="icon tetractys"></i>
+      <h1>TAROTJS</h1>
+      <p>Lorem ipsum sonat</p>
+      <i class="icon tree-of-life"></i>
+    </div>
+  </footer>
+
+<script src="cards.js"></script>
+  <script>
+    const helper = { 
+      /*
+        Get and return the passed in DOM node
+        X and Y coordinates on the page
+      */
+      getPosition: function (element) {
+        let xPosition = 0,
+          yPosition = 0;
+
+        while (element) {
+          xPosition += element.offsetLeft + element.clientLeft; 
+          yPosition += element.offsetTop + element.clientTop;
+          element = element.offsetParent;
+        }
+        return { x: xPosition, y: yPosition };
+      },
+      /*
+        Iterate a list of DOM nodes from
+        .queryAll() selector
+      */
+      iterateNodes: function (nodes, callback, scope) {
+        for (var i = 0; i < nodes.length; i++) {
+          callback.call(scope, i, nodes[i]);
+        }
+      },
+      /*
+        Initiates a CSS transition for opacity, then removes event
+        element = DOM node with the class opacity--zero applied
+      */
+      opacityZeroToHundred: function (element) {
+        element.style.transition = "opacity 1s ease-in";
+        element.classList.remove("opacity--zero");
+        element.classList.add("opacity--hundred");
+        setTimeout(function () {
+          element.style.removeProperty("transition");
+        }, 2200);
+      },
+    };
+
+    let model = {},
+    cuts = 0;
+
+    //STACK DECK
+  const stackCut = (top, bottom) => {
+    top.forEach(function (card) {
+      card.style.left = "0%";
+    });
+
+    bottom.forEach(function (card) {
+      card.style.left = "0%";
+    });
+
+    if (cuts < 3) {
+      setTimeout(shuffleCards, 500, 3);
+    } else {
+      let cards = document.querySelectorAll(".card");
+      helper.iterateNodes(cards, function (index, value) {
+        value.removeEventListener("click", cutCards);
+      });
+
+      dealer.setupSpread(_cards);
+    }
+  };
+
+  //SPLIT AND CONCAT CARDS ARRAY AT CUT
+  const cutCardData = (index) => {
+    let bottom = data.cards.slice(0, index),
+      top = data.cards.slice(index, data.cards.length).reverse();
+    data.cards = top.concat(bottom);
+  };
+
+  //CUT CARDS
+  const cutCards = (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    cuts++;
+    let cards = document.querySelectorAll(".card"),
+      cut = evt.target.dataset.index,
+      topStack = helper.getPosition(cards[cards.length - 10]),
+      bottomStack = helper.getPosition(cards[10]),
+      bottom = [],
+      top = [];
+    // cut cards into top and bottom stacks
+    helper.iterateNodes(cards, function (index, value) {
+      if (index < cut) {
+        // move cards to the left of the clicked card
+        value.style.top = bottomStack.y + "px";
+        value.style.left = bottomStack.x + "px";
+        bottom.push(value);
+      } else {
+        // move cards to the right of clicked card
+        value.style.top = topStack.y + "px";
+        value.style.left = topStack.x + "px";
+        top.push(value);
+      }
+    });
+    // cut data.cards
+    cutCardData(cut);
+    updateInstructions();
+    setTimeout(stackCut, 500, top, bottom);
+  };
+
+    //SPREAD CARDS FOR CUT
+    const setupCut = (cards) => {
+      helper.iterateNodes(cards, function (index, value) {
+        let transform = value.style.transform,
+          start = transform.indexOf("("),
+          end = transform.indexOf("d"),
+          rotation = transform.substring(start + 1, end),
+          reverse = rotation > 180 ? true : false;
+        lineUpCards(index, value);
+
+        if (reverse) {
+          if (value.classList.contains("reverse")) {
+            value.classList.remove("reverse");
+          } else {
+            value.classList.add("reverse");
+          }
+        }
+
+        value.addEventListener("click", cutCards, false);
+      });
+    };
+
+    //SHUFFLE CARDS ARRAY
+    // Fisher-Yates shuffle - http://bost.ocks.org/mike/shuffle/
+    const shuffleCardData = () => {
+      let numCards = data.cards.length,
+        pick,
+        swap;
+      while (numCards) {
+        pick = Math.floor(Math.random() * numCards--);
+        swap = data.cards[numCards];
+        data.cards[numCards] = data.cards[pick];
+        data.cards[pick] = swap;
+      }
+    };
+
+    const randomPosition = () => {
+      return Math.floor(Math.random() * 80);
+    };
+
+    const rotation = () => {
+      return Math.floor(Math.random() * 360);
+    };
+
+    //SHUFFLE
+    const shuffleCards = (n) => {
+      var cards = document.querySelectorAll(".card");
+      if (n === 0) {
+        setupCut(cards);
+        return;
+      }
+      // shuffle cards in DOM
+      helper.iterateNodes(cards, function (index, value) {
+        value.style.left = randomPosition() + "%";
+        value.style.top = randomPosition() + 12 + "%";
+        value.style.transform = "rotate(" + rotation() + "deg)";
+      });
+      // shuffle data.cards
+      shuffleCardData();
+      setTimeout(shuffleCards, 600, n - 1);
+    };
+
+    //LINE CARDS UP
+    const lineUpCards = (index, value) => {
+      value.style.top = "15%";
+      value.style.left = index * 1 + "%";
+      value.style.transform = "rotate(0deg)";
+      value.style.marginLeft = "5%";
+    };
+
+    //INSTRUCTIONS
+    const updateInstructions = () => {
+      let instructions = document.querySelector(".instructions"),
+        remainingCuts = 3 - cuts,
+        times = remainingCuts > 1 ? "times" : "more time";
+
+      if (cuts < 3) {
+        instructions.innerHTML =
+          "You must cut the cards " +
+          remainingCuts +
+          " " +
+          times +
+          ". <br> Click the cards where you want the deck to be cut.";
+      } else {
+        instructions.innerHTML = "";
+      }
+    };
+
+    const startShuffle = (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      let page = document.querySelector(".page"),
+        numCards = data.cards.length,
+        instructions = document.createElement("h1"),
+        cards;
+      // clear page container
+      while (page.firstChild) {
+        page.removeChild(page.firstChild);
+      }
+      //// reclass page container for shuffle layout
+      page.classList.remove("home");
+      page.classList.add("shuffle");
+      // add instructions to cut deck
+      instructions.classList.add("instructions");
+      page.appendChild(instructions);
+      updateInstructions();
+      // add cards to DOM
+      var spread = document.createElement("section");
+      spread.classList.add("deck");
+      for (var i = 0; i < numCards; i++) {
+        var card = document.createElement("div");
+        card.classList.add("card");
+        card.classList.add("card--back");
+        card.dataset.index = i;
+        spread.appendChild(card);
+        card.style.transition = "all 0.5s ease";
+      }
+      page.appendChild(spread);
+      // line cards up
+      cards = document.querySelectorAll(".card");
+      helper.iterateNodes(cards, function (index, value) {
+        lineUpCards(0, value);
+      });
+      // shuffle 3 times
+      setTimeout(shuffleCards, 200, 3);
+  };
+
+
+//Positions
+const positions =  async () => {
+  var spreads = [];
+  try {
+    const spreadsRef = await db.collection("spreads");
+    return spreadsRef
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          spreads.push(doc.data());
+        });
+        return spreads;
+      })
+      .catch(function (error) {
+        console.log("Error getting documents: ", error);
+      });
+  } catch (e) {
+    console.log("error getting card data for spread", e);
+  }
+}
+
+
+  //   model.getReading = function(position, card){
+  //     var promise = new Promise(function(resolve, reject){
+  //       init('http://localhost:3000/api/readings/' + position + '/' + card, function(data){
+  //         if(data.reading) {
+  //           resolve(data.reading);
+  //         } else {
+  //           reject(data);
+  //         }
+  //       });
+  //     });
+  //     return promise;
+  //   };
+
+  //   return model;
+
+  // };
+
+
+//Deal
+const Deal = () => {
+  var model = {};
+  var _positions = positions().then(res => {console.log('positions ', res)});
+
+}
+
+//   //TODO this is NOT responsive! Make it so
+//   function updateReading(index) {
+//     let reading = document.querySelector(".reading");
+//     let list = reading.querySelector("ul");
+//     let position = reading.querySelector(
+//       ".position--" + positions.data[index].name
+//     );
+//     let read = position.nextSibling;
+//     if (read) {
+//       read.classList.add("position--read");
+//       read.classList.remove("position--placeholder");
+//     }
+//     if (index === 0) {
+//       helper.opacityZeroToHundred(reading);
+//       list.style.top = list.clientHeight * -1 + "px";
+//     }
+//     let listPosition = helper.getPosition(list);
+//     list.style.transition = "top .5s";
+//     list.style.top =
+//       "calc(" + (listPosition.y + position.offsetHeight) + "px +  1.5em)";
+//   }
+
+//   function challengeDom(challengeImagePath) {
+//     let spread = document.querySelector(".spread");
+//     let situation = spread.querySelector(".situation");
+//     let situationImagePath =
+//       "/images/tarot/small/" +
+//       model.deck.data[0].suit +
+//       "/" +
+//       model.deck.data[0].number +
+//       ".png";
+//     let challenge = spread.querySelector(".challenge");
+//     let mask = document.createElement("div");
+//     let card = document.createElement("div");
+//     let face = document.createElement("div");
+//     mask.classList.add("card", "card--face", "mask");
+//     mask.style.background =
+//       "transparent url(" + situationImagePath + ") top center no-repeat";
+//     mask.style.backgroundSize = "9vmin 19vmin";
+//     card.classList.add("card");
+//     card.style.background =
+//       "transparent url(" + situationImagePath + ") bottom center no-repeat";
+//     card.style.backgroundSize = "9vmin 19vmin";
+//     face.classList.add("card", "face");
+//     face.style.background =
+//       "transparent url(" + challengeImagePath + ") center center no-repeat";
+//     face.style.backgroundSize = "9vmin 19vmin";
+//     face.style.zIndex = 3;
+//     mask.appendChild(card);
+//     challenge.appendChild(mask);
+//     challenge.appendChild(face);
+//     spread.removeChild(situation);
+//   }
+
+//   function dealCard(evt) {
+//     let deck = document.querySelector(".deck");
+//     let card = evt.target;
+//     let index = parseInt(card.dataset.index);
+//     let data = model.deck.data[index];
+//     let position = "." + positions.data[index].name;
+//     let face = document.querySelector(position);
+//     let imagePath =
+//       "/images/tarot/small/" + data.suit + "/" + data.number + ".png";
+//     if (index === 0) {
+//       document.querySelector(".instructions").remove();
+//     }
+//     if (index === 1) {
+//       //  write custom DOM for layered glow on challenge card
+//       challengeDom(imagePath);
+//     } else {
+//       face.style.background = "url(" + imagePath + ") center center no-repeat";
+//       face.style.backgroundSize = "9vmin 18vmin";
+//     }
+//     face.classList.remove("card--placeholder");
+//     face.classList.add("card--face");
+//     deck.removeChild(card);
+//     model.cards[index + 1].addEventListener("click", dealCard, false);
+//     updateReading(index);
+//   }
+
+//   function setupDeal() {
+//     let deck = document.querySelector(".deck");
+//     model.cards = deck.querySelectorAll(".card");
+//     let it = 0;
+//     let topcard = model.cards[it];
+//     topcard.addEventListener("click", dealCard, false);
+//     helper.iterateNodes(model.cards, function (index, value) {
+//       //discard all but the first 10 model.cards
+//       if (index > 9) {
+//         deck.removeChild(value);
+//       } else {
+//         if (index > 0) {
+//           //arrange DOM elements so that the zero index first card to be dealt
+//           let card = deck.removeChild(value);
+//           topcard = model.cards[it++];
+//           deck.insertBefore(card, topcard);
+//         }
+//       }
+//     });
+//   }
+
+//   function setupReading() {
+//     let reading = document.createElement("section");
+//     let list = document.createElement("ul");
+//     //reading.classList.add('reading');
+//     reading.classList.add("reading", "opacity--zero");
+//     positions.data.forEach(function (position, idx) {
+//       let positionPlaceholder = document.createElement("li");
+//       let positionTitle = document.createElement("h1");
+//       let positionText = document.createElement("p");
+//       let card = model.deck.data[idx].name;
+//       let cardName = document.createElement("h2");
+//       let cardText = document.createElement("p");
+//       cardName.innerHTML = card;
+//       positions.getReading(position.name, card).then(function (data) {
+//         cardText.innerHTML = data;
+//       });
+//       positionText.classList.add("position-text");
+//       positionPlaceholder.classList.add(
+//         "position",
+//         "position--" + position.name,
+//         "position--placeholder"
+//       );
+//       positionTitle.innerHTML = position.name;
+//       positionText.innerHTML = positions.data[idx].meaning;
+//       positionPlaceholder.appendChild(positionTitle);
+//       positionPlaceholder.appendChild(positionText);
+//       positionPlaceholder.appendChild(cardName);
+//       positionPlaceholder.appendChild(cardText);
+
+//       if (idx === 0) {
+//         list.appendChild(positionPlaceholder);
+//       } else {
+//         let firstchild = list.firstChild;
+//         list.insertBefore(positionPlaceholder, firstchild);
+//       }
+//     });
+//     reading.appendChild(list);
+//     model.page.appendChild(reading);
+//     list.style.position = "absolute";
+//     list.style.top = reading.clientHeight * 5 + "px";
+//   }
+
+//   function addCardsToSpread(spread) {
+//     positions.data.forEach(function (position, i) {
+//       let card = document.createElement("div");
+//       card.classList.add(
+//         "card",
+//         "card--placeholder",
+//         "opacity--zero",
+//         position.name
+//       );
+//       setTimeout(helper.opacityZeroToHundred, 750, card);
+//       spread.appendChild(card);
+//     });
+//   }
+
+//   model.setupSpread = function (deck) {
+//     let instructions = document.querySelector("h1");
+//     let cards = document.querySelectorAll(".card");
+//     model.cards = cards;
+//     //assign cards array to model
+//     model.deck = deck;
+//     //update instructions
+//     instructions.innerHTML = "Click deck to deal";
+//     instructions.classList.add("opacity--zero");
+//     setTimeout(helper.opacityZeroToHundred, 250, instructions);
+//     // draw spread outline
+//     model.page = document.querySelector(".page");
+//     model.page.classList.remove("shuffle");
+//     model.page.classList.add("deal");
+//     model.spread = document.createElement("section");
+//     model.spread.classList.add("spread");
+//     addCardsToSpread(model.spread);
+//     model.page.appendChild(model.spread);
+//     setupReading();
+//     setupDeal();
+//   };
+// };
+
+// export default Deal;
+
+  // click deck to start
+  var deck = document.querySelector('.deck');
+  deck.addEventListener("click", Deal, false);
+  </script>
+</div>
+</body>
+</html>
+
